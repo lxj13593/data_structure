@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 using namespace std;
 
 struct Node
@@ -269,7 +270,7 @@ Node *cross_judge(Link &l1,Link &l2)
     }
     p=l1.get_head()->next_;
     q=l2.get_head()->next_;
-    int c=fabs(a-b);
+    int c=std::abs(a-b);
 
     cout<<a<<" "<<b<<" "<<c<<endl;
 
