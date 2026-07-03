@@ -1,0 +1,33 @@
+{
+    "code-runner.runInTerminal": true,
+    "code-runner.saveFileBeforeRun": true,
+    "files.encoding": "utf8",
+    "files.associations": {
+        "*.h": "cpp"
+    },
+    "code-runner.executorMap": {
+        "cpp": "& \"$workspaceRoot\\.vscode\\run-cpp.ps1\" $fullFileName"
+    },
+    "trae.tab.enableRename": false,
+    "trae.tab.enableAutoImport": false,
+        "files.exclude": {
+        "**/*.exe": true,
+        "**/*.obj": true,
+        "**/*.pdb": true,
+        "**/*.ilk": true,
+        "**/*.log": true,
+        "**/*.tlog": true,
+        "**/*.idb": true,
+        "**/*.ipch": true,
+        "**/*.sdf": true,
+        "**/*.suo": true,
+        "**/*.res": true,
+        "**/vc140.pdb": true,
+        "**/vc140.idb": true
+    },
+     "editor.foldingStrategy": "auto",
+     "editor.codeLens": false,
+     "workbench.editorAssociations": {
+        "*.md": "default"
+     }
+}
