@@ -5,12 +5,14 @@
     "files.associations": {
         "*.h": "cpp"
     },
+    "code-runner.defaultLanguage": "cpp",
+    "code-runner.ignoreSelection": true,
     "code-runner.executorMap": {
         "cpp": "& \"$workspaceRoot\\.vscode\\run-cpp.ps1\" $fullFileName"
     },
     "trae.tab.enableRename": false,
     "trae.tab.enableAutoImport": false,
-        "files.exclude": {
+    "files.exclude": {
         "**/*.exe": true,
         "**/*.obj": true,
         "**/*.pdb": true,
@@ -25,9 +27,9 @@
         "**/vc140.pdb": true,
         "**/vc140.idb": true
     },
-     "editor.foldingStrategy": "auto",
-     "editor.codeLens": false,
-     "workbench.editorAssociations": {
+    "editor.foldingStrategy": "auto",
+    "editor.codeLens": false,
+    "workbench.editorAssociations": {
         "*.md": "default"
-     }
+    }
 }
