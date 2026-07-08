@@ -13,21 +13,22 @@ public:
     Node *next;
     Node(int data = 0) : data(data), prev(nullptr), next(nullptr)
     {
+
     }
 };
 
-class DoubleLink
+class CircleDoubleLink
 {
 private:
     Node *head;
     int length;
-
 public:
-    DoubleLink() : length(0)
+    //从这里往下未修改
+    CircleDoubleLink() : length(0)
     {
         head = new Node();
     }
-    ~DoubleLink()
+    ~CircleDoubleLink()
     {
         Node *p = head;
         Node *q = head->next;
@@ -241,7 +242,7 @@ public:
             throw out_of_range("链表为空");
         }
     }
-    DoubleLink(const DoubleLink &l)
+    CircleDoubleLink(const CircleDoubleLink &l)
     {
         length = l.length;
         head = new Node();
@@ -256,7 +257,7 @@ public:
             p=p->next;
         }
     }
-    DoubleLink &operator=(const DoubleLink &l)
+    CircleDoubleLink &operator=(const CircleDoubleLink &l)
     {
         // 防止自我赋值
         if (this == &l)
@@ -299,16 +300,9 @@ public:
 
 void test_1()
 {
-    DoubleLink dl1;
-    for(int i=0;i<10;i++)
-    {
-        dl1.push_back(i+1);
-    }
-    dl1.forward_traversal();
-    dl1.reverse_traversal();
-    dl1.insert(3,99);
-    dl1.forward_traversal();
+
 }
+
 int main()
 {
     test_1();
