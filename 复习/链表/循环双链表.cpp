@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <numeric>
+#include <stdexcept>
 
 using namespace std;
 
@@ -13,7 +14,6 @@ public:
     Node *next;
     Node(int data = 0) : data(data), prev(nullptr), next(nullptr)
     {
-
     }
 };
 
@@ -22,17 +22,19 @@ class CircleDoubleLink
 private:
     Node *head;
     int length;
+
 public:
-    //从这里往下未修改
     CircleDoubleLink() : length(0)
     {
         head = new Node();
+        head->next = head;
+        head->prev = head;
     }
     ~CircleDoubleLink()
     {
         Node *p = head;
         Node *q = head->next;
-        while (q != nullptr)
+        while (q != head)
         {
             p = q;
             q = q->next;
@@ -47,14 +49,15 @@ public:
     {
         Node *p = head;
         Node *q = head->next;
-        while (q != nullptr)
+        while (q != head)
         {
             p = q;
             q = q->next;
             delete p;
             p = nullptr;
         }
-        head->next = nullptr;
+        head->next = head;
+        head->prev = head;
         length = 0;
     }
     bool empty() const
@@ -70,8 +73,7 @@ public:
         Node *p = new Node(val);
         p->next = head->next;
         p->prev = head;
-        if (head->next != nullptr)
-            head->next->prev = p;
+        head->next->prev = p;
         head->next = p;
         length++;
     }
@@ -79,18 +81,20 @@ public:
     {
         Node *p = new Node(val);
         Node *q = head;
-        while (q->next != nullptr)
+        while (q->next != head)
         {
             q = q->next;
         }
         q->next = p;
         p->prev = q;
+        p->next = head;
+        head->prev = p;
         length++;
     }
     void forward_traversal() const
     {
         Node *p = head->next;
-        while (p != nullptr)
+        while (p != head)
         {
             cout << p->data << " ";
             p = p->next;
@@ -100,49 +104,47 @@ public:
     void reverse_traversal() const
     {
         Node *p = head;
-        while (p->next != nullptr)
+        while (p->next != head)
         {
             p = p->next;
         }
-        if (p != head)
+        while (p != head)
         {
-            while (p->prev != nullptr)
-            {
-                cout << p->data << " ";
-                p = p->prev;
-            }
-            cout << endl;
+            cout << p->data << " ";
+            p = p->prev;
         }
+        cout << endl;
     }
     void pop_front()
     {
-        if(head->next==nullptr)
+        if (head->next == head)
         {
             return;
         }
-        Node *p=head->next;
-        head->next=p->next;
-        if(p->next!=nullptr) p->next->prev=head;
+        Node *p = head->next;
+        head->next = p->next;
+        p->next->prev = head;
         delete p;
-        p=nullptr;
-        length--; 
+        p = nullptr;
+        length--;
     }
     void pop_back()
     {
-        if(length==0)
+        if (length == 0)
         {
             return;
         }
         Node *p = head;
         Node *q = head->next;
-        while (q->next != nullptr)
+        while (q->next != head)
         {
             p = q;
             q = q->next;
         }
         delete q;
         q = nullptr;
-        p->next = nullptr;
+        p->next = head;
+        head->prev = p;
         length--;
     }
     void insert(int i, int val)
@@ -160,11 +162,12 @@ public:
         }
         Node *new_node = new Node(val);
         new_node->next = p->next;
-        new_node->prev=p;
-        if(p->next!=nullptr) p->next->prev=new_node;
+        new_node->prev = p;
+        p->next->prev = new_node;
         p->next = new_node;
         length++;
     }
+
     void delete_(int i)
     {
         if (i < 1 || i > length)
@@ -180,11 +183,12 @@ public:
         }
         Node *q = p->next;
         p->next = q->next;
-        if(q->next!=nullptr) q->next->prev=p;
+        q->next->prev = p;
         delete q;
         q = nullptr;
         length--;
     }
+
     Node &at(int i)
     {
         if (i < 1 || i > length)
@@ -204,7 +208,7 @@ public:
         Node *p = head;
         vector<int> v;
         int i = 0;
-        while (p->next != nullptr)
+        while (p->next != head)
         {
             p = p->next;
             i++;
@@ -217,7 +221,7 @@ public:
     }
     Node &front()
     {
-        if (head->next != nullptr)
+        if (head->next != head)
         {
             return *(head->next);
         }
@@ -228,19 +232,16 @@ public:
     }
     Node &back()
     {
-        if (head->next != nullptr)
-        {
-            Node *p = head;
-            while (p->next != nullptr)
-            {
-                p = p->next;
-            }
-            return (*p);
-        }
-        else
+        if (head->next == head)
         {
             throw out_of_range("链表为空");
         }
+        Node *p = head;
+        while (p->next != head)
+        {
+            p = p->next;
+        }
+        return (*p);
     }
     CircleDoubleLink(const CircleDoubleLink &l)
     {
@@ -248,14 +249,16 @@ public:
         head = new Node();
         Node *s = head;
         Node *p = l.head->next;
-        while (p!= nullptr)
+        while (p != l.head)
         {
             Node *node = new Node(p->data);
             s->next = node;
-            node->prev=s;
+            node->prev = s;
             s = node;
-            p=p->next;
+            p = p->next;
         }
+        s->next=head;
+        head->prev=s;
     }
     CircleDoubleLink &operator=(const CircleDoubleLink &l)
     {
@@ -270,7 +273,7 @@ public:
         {
             Node *p = head;
             Node *q = head->next;
-            while (q != nullptr)
+            while (q != head)
             {
                 p = q;
                 q = q->next;
@@ -286,21 +289,23 @@ public:
         head = new Node();
         Node *s = head;
         Node *p = l.head->next;
-        while (p!=nullptr)
+        while (p !=l.head)
         {
             Node *node = new Node(p->data);
             s->next = node;
-            node->prev=s;
+            node->prev = s;
             s = node;
-            p=p->next;
+            p = p->next;
         }
+        s->next=head;
+        head->prev=s;
         return *this;
     }
 };
 
 void test_1()
 {
-
+    
 }
 
 int main()
