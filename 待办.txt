@@ -1,1 +1,20 @@
-循环双链表剩余部分
+循环队列
+
+1. 构造函数
+2. 析构函数
+3. 入队 push / enqueue
+4. 出队 pop / dequeue
+5. 获取队头 front
+6. 获取队尾 back
+7. 判断是否为空 empty
+8. 判断是否已满 full
+9. 获取有效元素个数 get_size
+10. 获取容量 get_capacity
+11. 清空 clear
+12. 遍历 traversal
+13. 扩容 expand
+14. 拷贝构造
+15. 赋值运算符
+
+
+链式队列
