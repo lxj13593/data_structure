@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <numeric>
+#include <cstdint>
 
 using namespace std;
 
@@ -47,6 +48,60 @@ void find_first_repeat_number(const vector<int> &v)
         }
     }
     cout<<endl;
+}
+
+void find_repeat_number_and_print_one_time(const vector<int> &v)
+{
+    vector<uint32_t> bitmap;
+    vector<uint32_t> bitmap_1;
+    bitmap.resize(100000000/32+1);
+    bitmap_1.resize(100000000/32+1);
+    for(auto &val:v)
+    {
+        int index=val/32;
+        int offset=val%32;
+        if((bitmap[index]&(1u<<offset))==0&&(bitmap_1[index]&(1u<<offset))==0)
+        {
+            bitmap[index]|=(1u<<offset);
+        }
+        else if((bitmap[index]&(1u<<offset))!=0&&(bitmap_1[index]&(1u<<offset))==0)
+        {
+            bitmap_1[index]|=(1u<<offset);
+            cout<<val<<" ";
+        }
+    }
+    cout<<endl;
+}
+
+void find_first_no_repeat(const vector<int> &v)
+{
+    vector<uint32_t> bitmap;
+    vector<uint32_t> bitmap_1;
+    bitmap.resize(100000000/32+1);
+    bitmap_1.resize(100000000/32+1);
+    for(auto &val:v)
+    {
+        int index=val/32;
+        int offset=val%32;
+        if((bitmap[index]&(1u<<offset))==0&&(bitmap_1[index]&(1u<<offset))==0)
+        {
+            bitmap[index]|=(1u<<offset);
+        }
+        else if((bitmap[index]&(1u<<offset))!=0&&(bitmap_1[index]&(1u<<offset))==0)
+        {
+            bitmap_1[index]|=(1u<<offset);
+        }
+    }
+    for(auto &val:v)
+    {
+        int index=val/32;
+        int offset=val%32;
+        if((bitmap[index]&(1u<<offset))!=0&&(bitmap_1[index]&(1u<<offset))==0)
+        {
+            cout<<val;
+            break;
+        }
+    }
 }
 
 int main()
