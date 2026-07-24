@@ -59,12 +59,18 @@ try {
             }
         }
 
-        $cppName = [System.IO.Path]::ChangeExtension($headerName, '.cpp')
-        $cppPath = Join-Path $source.DirectoryName $cppName
+        $headerExtension = [System.IO.Path]::GetExtension($headerName)
+        $headerStem = $headerName.Substring(0, $headerName.Length - $headerExtension.Length)
+        foreach ($extension in @('.cpp', '.cc', '.cxx')) {
+            $implementationName = $headerStem + $extension
+            $implementationPath = Join-Path $source.DirectoryName $implementationName
 
-        if ((Test-Path -LiteralPath $cppPath) -and ($cppPath -ne $source.FullName)) {
-            $sourceFiles += $cppName
-            $dependencyFiles += (Get-Item -LiteralPath $cppPath).FullName
+            if ((Test-Path -LiteralPath $implementationPath) -and
+                ($implementationPath -ne $source.FullName)) {
+                $sourceFiles += $implementationName
+                $dependencyFiles += (Get-Item -LiteralPath $implementationPath).FullName
+                break
+            }
         }
     }
 
